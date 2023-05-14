@@ -1,0 +1,109 @@
+﻿@using Microsoft.AspNet.Identity.Owin;
+@using Microsoft.AspNet.Identity;
+@using Microsoft.AspNet.Identity.EntityFramework;
+@using DigitalGOB2023.Web.Models;
+
+@model  DigitalGOB2023.Web.Models.ApplicationUser
+
+
+@{
+    string titulo = "Asignación de Perfiles";
+    var userManager = HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
+
+    var rm = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new ApplicationDbContext()));
+    var roles = rm.Roles.ToList();
+
+     var rolesForUser = userManager.GetRolesAsync(Model.Id).Result;
+}
+
+<div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">@titulo</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+        @*<span aria-hidden="true">×</span>*@
+    </button>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-md-6">
+            <h6>Perfiles asignados</h6>
+            @if (Model.Roles != null)
+            {
+
+                foreach (var rol in rolesForUser)
+                {
+
+                        <a class="btn btn-sm btn-outline-primary mb-1" href="#!" onclick="unsetPeril('@Model.Id','@rol')">@rol <i class="fas fa-trash fa-xs" style="margin-left:10px !important;"></i></a><br />
+                }
+            }
+        </div>
+        <div class="col-md-6">
+            <h6>Perfiles</h6>
+                @foreach (var rol in roles)
+                {
+                    if (!rol.Name.Equals("ROOT"))
+                    {
+                        if(!rolesForUser.Contains(rol.Name))
+                        {
+                            <a class="btn btn-sm btn-danger mb-1" href="#!" onclick="addPeril('@Model.Id','@rol.Id')">@rol.Name</a>
+                        }
+                    }
+                    
+                }
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+
+
+    function addPeril(usuario, perfil) {
+        $(".cargando").show();
+        var div = "dv_partial_modal_standar";
+        $.ajax({
+            url: '/Usuario/AsignarPerfil/?userId=' + usuario + '&rolId=' + perfil,
+            type: "GET",
+            //data: datosEnviar,
+            dataType: 'html',
+            success: function (result) {
+                $('#' + div).html(result);
+                //$('#modal-dialog').modal('show');
+                $(".cargando").hide();
+            },
+            error: function () {
+                // $("#modalLoading").modal("hide");
+                alert("Ha ocurrido un error.", "error")
+                $(".cargando").hide();
+            }
+        });       
+
+    }
+
+    function unsetPeril(usuario, perfil) {
+        $(".cargando").show();
+        var div = "dv_partial_modal_standar";
+        $.ajax({
+            url: '/Usuario/DesAsignarPerfil/?userId=' + usuario + '&rolName=' + perfil,
+            type: "GET",
+            //data: datosEnviar,
+            dataType: 'html',
+            success: function (result) {
+                $('#' + div).html(result);
+                //$('#modal-dialog').modal('show');
+                $(".cargando").hide();
+            },
+            error: function () {
+                // $("#modalLoading").modal("hide");
+                alert("Ha ocurrido un error.", "error");
+                $(".cargando").hide();
+            }
+        });       
+
+    }
+
+    $("#modalStandar").on("hidden.bs.modal", function () {
+        // put your default event here
+        $(".cargando").show();
+        window.location.href = "/Usuario/Index";
+    });
+</script>

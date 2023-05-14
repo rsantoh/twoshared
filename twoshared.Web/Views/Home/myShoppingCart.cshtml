@@ -1,0 +1,137 @@
+﻿
+@model List<twoshared.Core.Models.ItemsCart>
+
+
+<div class="row text-center text-md-start">
+    <div class="col-md-6">
+        <div class="me-auto">
+            <h2>
+                My shopping cart
+            </h2>
+
+        </div>
+    </div>
+    <div class="col-md-6 text-md-end">
+        <p class="text-gray-600 fs-xs">
+            <a href="javascript:void();">Grocery</a> / <a href="javascript:void();"></a> / List
+        </p>
+
+        <a href="/Home/Index" class="btn btn-secondary">
+
+            <i class="fa-regular fa-circle-left"></i>
+            &nbsp;
+            Back
+        </a>
+    </div>
+</div>
+
+<div class="card mt-3" id="products">
+    <div class="card-header">
+        <form class="flex-grow-1 pe-3">
+            <div class="input-group input-group-flush pt-2">
+                <div class="input-group-text ps-0">
+                    <i class="fas fa-search relative-top--2"></i>
+                </div>
+                <input type="search" class="search form-control" placeholder="Search...">
+               
+            </div>
+
+        </form>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-sm card-table table-nowrap mb-10">
+            <thead>
+                <tr>
+
+                    <th>
+                        <a class="sort text-dark" data-sort="item-name" href="#!">Name</a>
+                    </th>
+                    <th>
+                        <a class="sort text-dark" data-sort="item-name" href="#!">Price</a>
+                    </th>                   
+                    <th>&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody class="list">
+
+                @foreach (var item in Model)
+                {
+                <tr>
+                    <td>
+                        <div class="avatar">
+                            @if (item.urlPicture == null)
+                            {
+                                <img src="https://upload.wikimedia.org/wikipedia/en/6/60/No_Picture.jpg" class="avatar-image rounded-circle img-fluid me-3" alt="">
+                            }
+                            else
+                            {
+                                <img src="@item.urlPicture" class="avatar-image rounded-circle" alt="">
+                            }
+
+                        </div>
+                        &nbsp;
+                        <a href="#!" class="item-name text-dark relative-top-2">
+                            <span>@item.name</span>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="#!" class="item-name text-dark relative-top-2">
+                            @item.Price
+                        </a>
+                    </td>
+                    <td width="20%">
+                        <div class="ms-auto d-flex align-items-center mt-2 mt-md-0">
+                            <a href="return javascript void(0);" onclick="Tags(@item.id);" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalStandar">
+                                Tags
+                                &nbsp;
+                                <i class="fa-solid fa-tags"></i>
+                            </a>
+                            &nbsp;
+                            <a href="#" onclick="DeleteItemShopingCart(@item.id);" class="btn btn-danger">
+                                Delete
+                                &nbsp;
+                                <i class="fa-sharp fa-solid fa-trash"></i>
+                            </a>
+                        </div>
+                    </td>
+
+                </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+    <div class="card-footer d-flex justify-content-center p-0">
+        <ul class="nav-pagination">
+            <li>
+                <a class="page" href="#!">1</a>
+            </li>
+            <li>
+                <a class="page" href="#!">2</a>
+            </li>
+            <li>
+                <a class="page" href="#!">3</a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+            <div class="modal-body">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@{ var datetimeversion = DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString() + DateTime.Now.Day.ToString() + DateTime.Now.Hour.ToString() + DateTime.Now.Minute.ToString() + DateTime.Now.Second.ToString() + DateTime.Now.Millisecond.ToString(); }
+@section scripts {
+    <script src="~/Scripts/app/home/myShoppingCart.js?@datetimeversion"></script>
+}

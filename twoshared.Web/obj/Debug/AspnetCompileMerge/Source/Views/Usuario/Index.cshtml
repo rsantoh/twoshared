@@ -1,0 +1,258 @@
+﻿@using Microsoft.AspNet.Identity.Owin;
+
+@model  List<DigitalGOB2023.Web.Models.ApplicationUser>
+@{
+    ViewBag.Title = "Index";
+    var userManager = HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
+}
+
+
+<div class="row text-center text-md-start">
+    <div class="col-md-6">
+        <div class="me-auto">
+            <h2>
+                Administración de Usuarios
+            </h2>
+
+        </div>
+    </div>
+    <div class="col-md-6 text-md-end">
+        <p class="text-gray-600 fs-xs">
+            <a href="javascript:void();">Administración</a> @*/ <a href="javascript:void();">De</a>*@ / Usuarios
+        </p>
+        <a href="/Usuario/Usuario" id="btn_call_form" class="btn btn-purple btn-sm hover-lift-light shadow-light-sm mt-md-n3">
+            <span class="svg-icon svg-icon-sm text-white me-1">
+                <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"><title>ionicons-v5-a</title><line x1="256" y1="112" x2="256" y2="400" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px" /><line x1="400" y1="256" x2="112" y2="256" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px" /></svg>
+            </span>
+            Agregar Usuario
+        </a>
+
+    </div>
+</div>
+
+<div id="usuarios" class="card mt-3">
+    <div class="card-header">
+        <form class="flex-grow-1 pe-3">
+            <div class="input-group input-group-flush pt-2">
+                <div class="input-group-text ps-0">
+                    <i class="fas fa-search relative-top--2"></i>
+                </div>
+                <input type="search" class="search form-control" placeholder="Buscar...">
+            </div>
+        </form>
+
+        <div class="ms-auto mt-2 mt-md-0 d-none">
+            <button type="button" class="btn btn-white btn-sm dropdown-toggle" data-bs-toggle="dropdown">
+                <i class="svg-icon svg-icon-sm me-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"><title>ionicons-v5-n</title><path d="M35.4,87.12,204.05,283.56A16.07,16.07,0,0,1,208,294V413.32a7.93,7.93,0,0,0,5.39,7.59l80.15,26.67A7.94,7.94,0,0,0,304,440V294A16.07,16.07,0,0,1,308,283.56L476.6,87.12A14,14,0,0,0,466,64H46.05A14,14,0,0,0,35.4,87.12Z" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px" /></svg>
+                </i>
+
+                Filter
+            </button>
+
+            <div class="dropdown-menu dropdown-menu-card shadow-light">
+                <div class="card-header">
+                    <div class="card-header-title">
+                        Filters
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex align-items-center justify-content-between px-4">
+                            <span>
+                                Location
+                            </span>
+                            <select class="form-select form-select-sm w-auto">
+                                <option>America</option>
+                                <option>Europe</option>
+                                <option>Asia</option>
+                                <option>Africa</option>
+                                <option>Oceania</option>
+                            </select>
+                        </li>
+                        <li class="list-group-item d-flex align-items-center justify-content-between px-4">
+                            <span>
+                                Created at
+                            </span>
+                            <select class="form-select form-select-sm w-auto">
+                                <option>Last week</option>
+                                <option>This year</option>
+                                <option>Last year</option>
+                            </select>
+                        </li>
+                    </ul>
+                </div>
+                <a href="#!" class="card-footer-btn btn btn-purple justify-content-center">
+                    Apply filter
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-sm card-table table-nowrap mb-10">
+                <thead>
+                    <tr>
+                        <th>
+                            <div class="form-check m-0">
+                                <input class="form-check-input list-checkbox-all" type="checkbox">
+                            </div>
+                        </th>
+                        <th>
+                            <a class="sort text-dark" data-sort="item-name" href="#!">Usuario</a>
+                        </th>
+                        <th>
+                            <a class="sort text-dark" data-sort="item-name" href="#!">Perfiles</a>
+                        </th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody class="list">
+
+                    @foreach (var item in Model)
+                    {
+                        var rolesForUser = userManager.GetRolesAsync(item.Id).Result;
+                        if (!rolesForUser.Contains("ROOT"))
+                        {
+                            <tr>
+                                <td>
+                                    <div class="form-check">
+                                        <input class="form-check-input list-checkbox" type="checkbox">
+                                    </div>
+                                </td>
+                                <td>
+
+                                    <a href="#!" class="item-name text-dark relative-top-2">
+                                        @item.UserName
+                                    </a>
+                                </td>
+                                <td>
+
+                                    <a href="#!" class="item-name text-dark relative-top-2">
+                                       @foreach(var rol in rolesForUser)
+                                       {
+                                           <span>@rol</span>
+                                       }
+                                    </a>
+                                </td>
+
+                                @*<td class="fs-sm text-muted">
+                                Apr/14/2020
+                            </td>*@
+                                <td>
+                                    <div class="dropdown">
+                                        <a href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <span class="svg-icon text-gray-500">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"><title>ionicons-v5-f</title><circle cx="256" cy="256" r="32" style="fill:none;stroke:#000;stroke-miterlimit:10;stroke-width:32px" /><circle cx="416" cy="256" r="32" style="fill:none;stroke:#000;stroke-miterlimit:10;stroke-width:32px" /><circle cx="96" cy="256" r="32" style="fill:none;stroke:#000;stroke-miterlimit:10;stroke-width:32px" /></svg>
+                                            </span>
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <a class="dropdown-item" href="return javascript void(0);" id="btn_edit_form" onclick="editarUsuario('@item.Id')" data-bs-toggle="modal" data-bs-target="#modalStandar">Editar usuario</a>
+                                            <a class="dropdown-item" href="return javascript void(0);" id="btn_perfil_form" onclick="perfilesUsuario('@item.Id')" data-bs-toggle="modal" data-bs-target="#modalStandar">Perfiles usuario</a>
+                                            <a class="dropdown-item text-danger" href="#!" onclick="eliminarUsuario('@item.Id')">Eliminar</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+
+
+
+
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+
+
+    <div class="card-footer bg-dark">
+        Pie de sección
+    </div>
+</div>
+
+@section scripts
+{
+
+    <script type="text/javascript">
+        $(function () {
+            var options = {
+                valueNames: ['item-name', 'item-location', 'item-ceo'],
+                page: 10,
+                pagination: {
+                    paginationClass: 'nav-pagination'
+                }
+            };
+
+      var companiesList = new List('usuarios', options);
+    })
+
+        
+
+        function editarUsuario(id) {
+            $(".cargando").show();
+            window.location.href = "/Usuario/EditarUsuario/?id=" + id;
+        }
+
+        function eliminarUsuario(id) {
+
+            Swal.fire({
+                title: 'Está seguro de eliminar el usuario?',
+                //text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'SI',
+                cancelButtonText: 'NO'
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    var datosEnviar = new FormData();
+
+                    
+
+                    datosEnviar.append("id", id);
+                    $.ajax({
+                        url: '/Usuario/EliminarUsuario/',
+                        type: "POST",
+                        data: datosEnviar,
+                        dataType: 'json',
+                        contentType: false,
+                        processData: false,
+                        success: function (result) {
+                            if (result.respuesta) {
+                                window.location.href = "/Usuario/Index";
+                            }
+                            else {
+                                Swal.fire(
+                                    'Error',
+                                    'No se pudo ejecutar la operacion',
+                                    'error'
+                                );
+
+                            }
+                        },
+                        error: function (xhr, status) {
+
+                            alert("An error occured: " + xhr.status + " " + xhr.statusText + " - status: " + status);
+                        }
+                    });
+
+
+
+                }
+            });
+
+
+        }
+
+        function perfilesUsuario(id) {
+
+            llamarAjaxPartialViewModal("/Usuario/PerfilesUsuario/?id=" + id, "dv_partial_modal_standar");
+        }
+    </script>
+
+    }

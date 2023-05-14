@@ -1,0 +1,361 @@
+﻿
+
+@model DigitalGOB2023.Core.ModelsView.RolViewModel.Usuario
+@{
+    string titulo = "Nuevo usuario";
+    
+    if (Model.Id != null)
+    {
+        titulo = "Editar usuario";
+    }
+    ViewBag.Title = titulo;
+
+    List<SelectListItem> TipoDocumento = ViewBag.TipoDocumento;
+}
+
+
+<div class="row text-center text-md-start">
+    <div class="col-md-6">
+        <div class="me-auto">
+            <h2>
+                @titulo
+            </h2>
+
+        </div>
+    </div>
+    <div class="col-md-6 text-md-end">
+        <p class="text-gray-600 fs-xs">
+            <a href="javascript:void();">Administración</a> / <a href="/Usuario/Index">Usuarios</a> / @titulo
+        </p>
+        
+
+    </div>
+</div>
+
+<div class="container-fluid mt-4 mt-md-5 mb-7">
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="card">
+                <div class="card-body">
+                    <h6 class="text-uppercase-xs text-muted mb-4">
+                        Configuración de usuario
+                    </h6>
+                    <ul class="list text-darkblue m-0">
+                        <li class="list-item active">
+                            <a class="text-reset" href="#">
+                                General
+                            </a>
+                        </li>
+                        <li class="list-item disabled">
+                            <a class="text-reset disabled" href="#">
+                                Permisos
+                            </a>
+                        </li>
+                        <li class="list-item disabled">
+                            <a class="text-reset disabled" href="#">
+                                Notificaciones
+                            </a>
+                        </li>
+                        @*<li class="list-item">
+                            <a class="text-reset" href="account-teammates.html">
+                                Teammates
+                            </a>
+                        </li>*@
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-9 mt-4 mt-lg-0">
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="card-header-title text-darkblue">
+                        Información Básica
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div id="uploadForm">
+                        <div class="d-flex align-items-center border-bottom border-gray-200 pb-4 mb-4">
+                            <div class="avatar avatar-xl">
+                                <img id="foto" src="/Theme/assets/img/uifaces/default.jpg" class="avatar-image rounded-circle" alt="">
+                            </div>
+                            <div class="flex-1 ms-4 ps-2">
+                                <h6 class="text-darkblue">
+                                    Fotografía
+                                </h6>
+                                <span class="fs-sm text-muted">
+                                    Cargue una imagen PNG o JPG, límite de tamaño 2 MB.
+                                </span>
+                                <div class="mt-2">
+                                    <input class="form-control" type="file" id="formFile" accept="image/png,image/jpeg">
+                                    <div  id="sizeFile" class="fs-sm invalid-feedback"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Correo Electrónico</label>
+                                    <input type="email" placeholder="correo@digitalgob.co" id="Email" onkeyup="validaEmails();" class="form-control p-2 requerido" >
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Confirmar Correo Electrónico</label>
+                                    <input type="email" id="re-Email" placeholder="correo@digitalgob.co" onkeyup="validaEmails();" class="form-control p-2">
+                                    <div  id="noEmail" class="fs-sm invalid-feedback"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Tipo de Documento</label>
+                                    <select id="ddl_tipodoc" class="form-select requerido" >
+                                        @if(TipoDocumento != null && TipoDocumento.Count >0)
+                                        {
+                                            foreach (var tipo in TipoDocumento)
+                                            {
+                                                <option value="@tipo.Value" selected="@tipo.Selected">@tipo.Text</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Número de Documento</label>
+                                    <input type="text" id="NumDocumento" placeholder="Número de documento" class="form-control p-2 requerido input-number" >
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Nombres</label>
+                                    <input type="text" placeholder="Nombre completo" id="Nombres" class="form-control p-2 requerido" >
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Apellidos</label>
+                                    <input type="text" placeholder="Apellidos" id="Apellidos" class="form-control p-2 requerido" >
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Celular</label>
+                                    <input type="text" placeholder="Celular" id="Celular" class="form-control p-2 requerido input-number" >
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Tipo de Usuario</label>
+                                    <select id="ddl_tipopersona" class="form-select requerido"  >
+                                        <option value="1">Interno</option>
+                                        <option value="2">Contratista</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12 mt-2">
+                                <div class="alert alert-light" role="alert">
+                                    El usuario para iniciar sesión en el sistema será el correo electrónico y la contraseña será el número de documento registrado.<br />
+                                    El sistema solicitará cambiarla la contraseña la primera vez que inicie sesión.
+                                </div>
+                            </div>
+                            <div class="col-12 mt-2">
+                                <button id="btn_save" type="button" class="btn btn-primary btn-lg mt-4">Guardar Información</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mt-5 d-none">
+                <div class="card-header">
+                    <h6 class="card-header-title text-darkblue">
+                        Change your password
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label">Current password</label>
+                            <input type="password" class="form-control p-2">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">New password</label>
+                            <input type="password" class="form-control p-2">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Confirm new password</label>
+                            <input type="password" class="form-control p-2">
+                        </div>
+                        <input type="submit" class="btn btn-success mt-2" value="Update password">
+                    </form>
+                </div>
+            </div>
+
+            <div class="card mt-5 d-none">
+                <div class="card-header">
+                    <h6 class="card-header-title text-danger">
+                        Delete your account
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <form>
+                        <p><strong>Alert</strong>: Once you delete your account, there is no going back.</p>
+                        <input type="submit" class="btn btn-danger mt-2" value="Delete your account">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+           
+        });
+        function validaEmails() {
+            if ($("#Email").val() != $("#re-Email").val()) {
+                $("#noEmail").html("Los correos no coinciden");
+                 $("#re-Email").addClass("is-invalid");
+            }
+            else {
+                $("#noEmail").html("");
+                $("#re-Email").removeClass("is-invalid");
+            }
+        }
+
+        $("#formFile").on("change", function (e) {
+            var adjunto_files = $("#formFile");
+
+            var filesize = ((adjunto_files[0].files[0].size / 1024) / 1024).toFixed(4); // MB
+            console.log(filesize);
+
+            if (filesize > 2) {
+                $("#sizeFile").html("La imagen es muy pesada");
+                $("#formFile").val("");
+                $("#formFile").addClass("is-invalid");
+            }
+            else {
+                readURL(adjunto_files);
+                $("#sizeFile").html("");
+                $("#formFile").removeClass("is-invalid");
+            }
+
+
+        });
+
+        function readURL(input) {
+            if (input[0].files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    // Asignamos el atributo src a la tag de imagen
+                    $('#foto').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input[0].files[0]);
+            }
+        }
+
+        $('.input-number').on('input', function () {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
+
+        $("#btn_save").click(function () {
+            $(".cargando").show();
+            var noValidos = 0;
+            //var nFilas = $("#tb_categorias tbody tr").length;
+
+            event.preventDefault();
+            // Validate all input fields.
+            var isValid = true;
+
+            $('.requerido').each(function () {
+                console.log($(this).val());
+                if ($(this).val().length == "") {
+                    $(this).addClass("is-invalid");
+                    noValidos++;
+                }
+                else {
+                    $(this).removeClass("is-invalid");
+                }
+                    
+            });
+            console.log(noValidos);
+            if (noValidos == 0) {
+                Swal.fire({
+                    title: 'Está seguro de crear el usuario?',
+                    //text: "La contraseña del usuario será el número de documento registrado. El sistema solicitará cambiarla la primera vez que inicie sesión.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'SI',
+                    cancelButtonText: 'NO'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+
+                        var datosEnviar = new FormData();
+
+                        var Id = "0";
+
+                        var avatar = $('input[type=file]');
+                        var Email = $("#Email").val();
+                        var TipoDoc = $("#ddl_tipodoc").val();
+                        var NumDocumento = $("#NumDocumento").val();
+                        var Nombres = $("#Nombres").val();
+                        var Apellidos = $("#Apellidos").val();
+                        var Celular = $("#Celular").val();
+                        var TipoPersona = $("#ddl_tipopersona").val();
+
+                        datosEnviar.append("foto", avatar[0].files[0]);
+                        datosEnviar.append("id", Id);
+                        datosEnviar.append("email", Email);
+                        datosEnviar.append("tipoDoc", TipoDoc);
+                        datosEnviar.append("numDocumento", NumDocumento);
+                        datosEnviar.append("nombres", Nombres);
+                        datosEnviar.append("apellidos", Apellidos);
+                        datosEnviar.append("celular", Celular);
+                        datosEnviar.append("tipoPersona", TipoPersona);
+
+                        $.ajax({
+                            url: '/Usuario/CrearUsuario/',
+                            type: "POST",
+                            data: datosEnviar,
+                            dataType: 'json',
+                            contentType: false,
+                            processData: false,
+                            success: function (result) {
+                                if (result.respuesta != "0") {
+                                    window.location.href = "/Usuario/Index";
+                                }
+                                else {
+                                    $(".cargando").hide();
+                                    Swal.fire(
+                                        'Error',
+                                        'No se pudo ejecutar la operacion',
+                                        'error'
+                                    );
+
+                                }
+                            },
+                            error: function (xhr, status) {
+
+                                alert("An error occured: " + xhr.status + " " + xhr.statusText + " - status: " + status);
+                            }
+                        });
+
+
+
+                    }
+                });
+            }
+
+            $(".cargando").hide();
+        });
+    </script>
+
+}

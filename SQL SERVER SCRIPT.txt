@@ -1,0 +1,467 @@
+USE [master]
+GO
+/****** Object:  Database [PRUEBA]    Script Date: 13/05/2023 04:54:18 p. m. ******/
+CREATE DATABASE [PRUEBA]
+ CONTAINMENT = NONE
+ ON  PRIMARY 
+( NAME = N'PRUEBA', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.SQLEXPRESS\MSSQL\DATA\PRUEBA.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
+ LOG ON 
+( NAME = N'PRUEBA_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.SQLEXPRESS\MSSQL\DATA\PRUEBA_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
+ WITH CATALOG_COLLATION = DATABASE_DEFAULT
+GO
+ALTER DATABASE [PRUEBA] SET COMPATIBILITY_LEVEL = 150
+GO
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [PRUEBA].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
+ALTER DATABASE [PRUEBA] SET ANSI_NULL_DEFAULT OFF 
+GO
+ALTER DATABASE [PRUEBA] SET ANSI_NULLS OFF 
+GO
+ALTER DATABASE [PRUEBA] SET ANSI_PADDING OFF 
+GO
+ALTER DATABASE [PRUEBA] SET ANSI_WARNINGS OFF 
+GO
+ALTER DATABASE [PRUEBA] SET ARITHABORT OFF 
+GO
+ALTER DATABASE [PRUEBA] SET AUTO_CLOSE OFF 
+GO
+ALTER DATABASE [PRUEBA] SET AUTO_SHRINK OFF 
+GO
+ALTER DATABASE [PRUEBA] SET AUTO_UPDATE_STATISTICS ON 
+GO
+ALTER DATABASE [PRUEBA] SET CURSOR_CLOSE_ON_COMMIT OFF 
+GO
+ALTER DATABASE [PRUEBA] SET CURSOR_DEFAULT  GLOBAL 
+GO
+ALTER DATABASE [PRUEBA] SET CONCAT_NULL_YIELDS_NULL OFF 
+GO
+ALTER DATABASE [PRUEBA] SET NUMERIC_ROUNDABORT OFF 
+GO
+ALTER DATABASE [PRUEBA] SET QUOTED_IDENTIFIER OFF 
+GO
+ALTER DATABASE [PRUEBA] SET RECURSIVE_TRIGGERS OFF 
+GO
+ALTER DATABASE [PRUEBA] SET  DISABLE_BROKER 
+GO
+ALTER DATABASE [PRUEBA] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+GO
+ALTER DATABASE [PRUEBA] SET DATE_CORRELATION_OPTIMIZATION OFF 
+GO
+ALTER DATABASE [PRUEBA] SET TRUSTWORTHY OFF 
+GO
+ALTER DATABASE [PRUEBA] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+GO
+ALTER DATABASE [PRUEBA] SET PARAMETERIZATION SIMPLE 
+GO
+ALTER DATABASE [PRUEBA] SET READ_COMMITTED_SNAPSHOT OFF 
+GO
+ALTER DATABASE [PRUEBA] SET HONOR_BROKER_PRIORITY OFF 
+GO
+ALTER DATABASE [PRUEBA] SET RECOVERY SIMPLE 
+GO
+ALTER DATABASE [PRUEBA] SET  MULTI_USER 
+GO
+ALTER DATABASE [PRUEBA] SET PAGE_VERIFY CHECKSUM  
+GO
+ALTER DATABASE [PRUEBA] SET DB_CHAINING OFF 
+GO
+ALTER DATABASE [PRUEBA] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+GO
+ALTER DATABASE [PRUEBA] SET TARGET_RECOVERY_TIME = 60 SECONDS 
+GO
+ALTER DATABASE [PRUEBA] SET DELAYED_DURABILITY = DISABLED 
+GO
+ALTER DATABASE [PRUEBA] SET QUERY_STORE = OFF
+GO
+USE [PRUEBA]
+GO
+/****** Object:  User [santo]    Script Date: 13/05/2023 04:54:18 p. m. ******/
+CREATE USER [santo] WITHOUT LOGIN WITH DEFAULT_SCHEMA=[dbo]
+GO
+/****** Object:  User [prueba]    Script Date: 13/05/2023 04:54:18 p. m. ******/
+CREATE USER [prueba] WITHOUT LOGIN WITH DEFAULT_SCHEMA=[dbo]
+GO
+/****** Object:  Table [dbo].[Customers]    Script Date: 13/05/2023 04:54:18 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Customers](
+	[IdCustomer] [int] IDENTITY(1,1) NOT NULL,
+	[name] [nvarchar](100) NULL,
+ CONSTRAINT [PK_Customers] PRIMARY KEY CLUSTERED 
+(
+	[IdCustomer] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Items_shopping_list]    Script Date: 13/05/2023 04:54:18 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Items_shopping_list](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Id_shoping_list] [int] NULL,
+	[id_product] [int] NULL,
+	[quantity] [int] NULL,
+ CONSTRAINT [PK_Items_shopping_list] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[itemTags]    Script Date: 13/05/2023 04:54:18 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[itemTags](
+	[IdItem] [int] NOT NULL,
+	[Name] [nvarchar](50) NOT NULL,
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+ CONSTRAINT [PK_itemTags] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Products]    Script Date: 13/05/2023 04:54:18 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Products](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[name] [nvarchar](100) NULL,
+	[quantity] [int] NULL,
+	[urlPicture] [nvarchar](1500) NULL,
+	[Description] [nvarchar](100) NULL,
+	[Price] [nvarchar](50) NULL,
+	[Category] [nvarchar](10) NULL,
+ CONSTRAINT [PK_Products] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Shopping_List]    Script Date: 13/05/2023 04:54:18 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Shopping_List](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[idCustomer] [int] NOT NULL,
+	[creation_date] [smalldatetime] NULL,
+ CONSTRAINT [PK_Shopping_List] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+SET IDENTITY_INSERT [dbo].[Customers] ON 
+GO
+INSERT [dbo].[Customers] ([IdCustomer], [name]) VALUES (1, N'2Shared')
+GO
+SET IDENTITY_INSERT [dbo].[Customers] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Items_shopping_list] ON 
+GO
+INSERT [dbo].[Items_shopping_list] ([Id], [Id_shoping_list], [id_product], [quantity]) VALUES (15, 1, 1, 1)
+GO
+INSERT [dbo].[Items_shopping_list] ([Id], [Id_shoping_list], [id_product], [quantity]) VALUES (16, 1, 3, 1)
+GO
+SET IDENTITY_INSERT [dbo].[Items_shopping_list] OFF
+GO
+SET IDENTITY_INSERT [dbo].[itemTags] ON 
+GO
+INSERT [dbo].[itemTags] ([IdItem], [Name], [Id]) VALUES (15, N'example 2', 9)
+GO
+SET IDENTITY_INSERT [dbo].[itemTags] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Products] ON 
+GO
+INSERT [dbo].[Products] ([id], [name], [quantity], [urlPicture], [Description], [Price], [Category]) VALUES (1, N'SAMSUNG 32', 5, N'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBK2ImnJ8m_Y0etTVLMzqrsX3XlpP59n1u6g&usqp=CAU', NULL, N'499', N'TV')
+GO
+INSERT [dbo].[Products] ([id], [name], [quantity], [urlPicture], [Description], [Price], [Category]) VALUES (2, N'LG UHD 32', 4, N'https://www.lg.com/co/images/televisores/md07504655/gallery/1100_01_v1.jpg', NULL, N'500', N'TV')
+GO
+INSERT [dbo].[Products] ([id], [name], [quantity], [urlPicture], [Description], [Price], [Category]) VALUES (3, N'SONY 50', 2, N'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKzIC4jTKFN1nfsMkUpts8oTrOCsaB8k7mXg&usqp=CAU', NULL, N'1099', N'TV')
+GO
+INSERT [dbo].[Products] ([id], [name], [quantity], [urlPicture], [Description], [Price], [Category]) VALUES (4, N'OLIMPO 32', 5, N'https://www.lg.com/co/images/televisores/md07504655/gallery/1100_01_v1.jpg', NULL, N'449', N'TV')
+GO
+INSERT [dbo].[Products] ([id], [name], [quantity], [urlPicture], [Description], [Price], [Category]) VALUES (5, N'CAIXUM 55', 4, N'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKzIC4jTKFN1nfsMkUpts8oTrOCsaB8k7mXg&usqp=CAU', NULL, N'1099', N'TV')
+GO
+INSERT [dbo].[Products] ([id], [name], [quantity], [urlPicture], [Description], [Price], [Category]) VALUES (6, N'HAITACHI 40', 3, N'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRwSNrdhICOLkE_Kb_85nUhxc2rjJH0ow23w&usqp=CAU', NULL, N'699', N'TV')
+GO
+INSERT [dbo].[Products] ([id], [name], [quantity], [urlPicture], [Description], [Price], [Category]) VALUES (10, N' TV Samsung  50', 3, N'https://http2.mlstatic.com/D_NQ_NP_808818-MLA50420667761_062022-O.webp', NULL, N'699', N'TV')
+GO
+INSERT [dbo].[Products] ([id], [name], [quantity], [urlPicture], [Description], [Price], [Category]) VALUES (11, N'TV Hyundai ', 2, N'https://http2.mlstatic.com/D_NQ_NP_809409-MLA53474256499_012023-O.webp', NULL, N'599', N'TV')
+GO
+INSERT [dbo].[Products] ([id], [name], [quantity], [urlPicture], [Description], [Price], [Category]) VALUES (12, N'Televisor Exclusiv 32 ', 1, N'https://http2.mlstatic.com/D_NQ_NP_951713-MLA52933102471_122022-O.webp', NULL, N'399', N'TV')
+GO
+SET IDENTITY_INSERT [dbo].[Products] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Shopping_List] ON 
+GO
+INSERT [dbo].[Shopping_List] ([id], [idCustomer], [creation_date]) VALUES (1, 1, CAST(N'2023-05-13T14:08:00' AS SmallDateTime))
+GO
+SET IDENTITY_INSERT [dbo].[Shopping_List] OFF
+GO
+ALTER TABLE [dbo].[Items_shopping_list]  WITH CHECK ADD  CONSTRAINT [FK_Items_shopping_list_Products] FOREIGN KEY([id_product])
+REFERENCES [dbo].[Products] ([id])
+GO
+ALTER TABLE [dbo].[Items_shopping_list] CHECK CONSTRAINT [FK_Items_shopping_list_Products]
+GO
+ALTER TABLE [dbo].[Items_shopping_list]  WITH CHECK ADD  CONSTRAINT [FK_Items_shopping_list_Shopping_List] FOREIGN KEY([Id_shoping_list])
+REFERENCES [dbo].[Shopping_List] ([id])
+GO
+ALTER TABLE [dbo].[Items_shopping_list] CHECK CONSTRAINT [FK_Items_shopping_list_Shopping_List]
+GO
+ALTER TABLE [dbo].[itemTags]  WITH CHECK ADD  CONSTRAINT [FK_itemTags_Items_shopping_list] FOREIGN KEY([IdItem])
+REFERENCES [dbo].[Items_shopping_list] ([Id])
+GO
+ALTER TABLE [dbo].[itemTags] CHECK CONSTRAINT [FK_itemTags_Items_shopping_list]
+GO
+ALTER TABLE [dbo].[Shopping_List]  WITH CHECK ADD  CONSTRAINT [FK_Shopping_List_Customers] FOREIGN KEY([idCustomer])
+REFERENCES [dbo].[Customers] ([IdCustomer])
+GO
+ALTER TABLE [dbo].[Shopping_List] CHECK CONSTRAINT [FK_Shopping_List_Customers]
+GO
+/****** Object:  StoredProcedure [dbo].[spMyItem_Tag_DELETE]    Script Date: 13/05/2023 04:54:18 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROC [dbo].[spMyItem_Tag_DELETE]
+	@item int,
+	@ResultOUTPUT CHAR(1) OUTPUT
+AS
+--EXECT spMyItem_Tag_Insert 1, 'TEST', ''
+
+BEGIN
+	SET NOCOUNT ON;
+	SET DATEFORMAT ymd;
+	BEGIN TRANSACTION
+    BEGIN TRY	
+
+	DELETE FROM [dbo].[itemTags] WHERE [Id] = @item
+		
+	SET	@ResultOUTPUT = '1'
+	SELECT @ResultOUTPUT
+
+	COMMIT TRANSACTION
+	END TRY
+
+	BEGIN CATCH
+		ROLLBACK TRANSACTION
+		SET	@ResultOUTPUT = '0'
+		SELECT @ResultOUTPUT --error;
+		PRINT ERROR_MESSAGE() 
+	END CATCH
+
+	SET NOCOUNT OFF;
+END
+GO
+/****** Object:  StoredProcedure [dbo].[spMyItem_Tag_Insert]    Script Date: 13/05/2023 04:54:18 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROC [dbo].[spMyItem_Tag_Insert]
+	@idShoppinCart int,	
+	@Name nvarchar(50),
+	@ResultOUTPUT CHAR(1) OUTPUT
+AS
+--EXECT spMyItem_Tag_Insert 1, 'TEST', ''
+
+BEGIN
+	SET NOCOUNT ON;
+	SET DATEFORMAT ymd;
+	BEGIN TRANSACTION
+    BEGIN TRY	
+
+	INSERT INTO [dbo].[itemTags]
+           ([IdItem]
+           ,[Name])
+     VALUES
+           (@idShoppinCart
+           ,@Name)
+		
+	SET	@ResultOUTPUT = '1'
+	SELECT @ResultOUTPUT
+
+	COMMIT TRANSACTION
+	END TRY
+
+	BEGIN CATCH
+		ROLLBACK TRANSACTION
+		SET	@ResultOUTPUT = '0'
+		SELECT @ResultOUTPUT --error;
+		PRINT ERROR_MESSAGE() 
+	END CATCH
+
+	SET NOCOUNT OFF;
+END
+GO
+/****** Object:  StoredProcedure [dbo].[spMyItem_Tag_Select]    Script Date: 13/05/2023 04:54:18 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [dbo].[spMyItem_Tag_Select]
+	@IdItem int
+AS
+
+-- EXEC spMyItem_Tag_Select 1 
+
+BEGIN
+	SET NOCOUNT ON;
+	SELECT [Id], [Name] FROM itemTags Where [IdItem] = @IdItem
+
+	SET NOCOUNT OFF;
+END
+GO
+/****** Object:  StoredProcedure [dbo].[spProducts_Customer_Select]    Script Date: 13/05/2023 04:54:18 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [dbo].[spProducts_Customer_Select]
+	@IdCustomer int
+AS
+
+-- EXEC spProducts_Customer_Select 1 
+
+BEGIN
+	SET NOCOUNT ON;
+
+	select ISL.Id, name, urlPicture, Price  from [dbo].[Items_shopping_list] AS ISL
+	INNER JOIN [dbo].[Shopping_List] AS SL ON SL.id = ISL.Id_shoping_list
+	INNER JOIN [dbo].[Products] AS PR ON PR.id = ISL.id_product
+	WHERE SL.idCustomer = @IdCustomer
+
+	SET NOCOUNT OFF;
+END
+GO
+/****** Object:  StoredProcedure [dbo].[spProducts_Select]    Script Date: 13/05/2023 04:54:18 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [dbo].[spProducts_Select]
+	
+AS
+
+-- EXEC spProducts_Select 
+
+BEGIN
+	SET NOCOUNT ON;
+	SELECT * FROM Products
+
+	SET NOCOUNT OFF;
+END
+GO
+/****** Object:  StoredProcedure [dbo].[spProducts_Shopping_Delete]    Script Date: 13/05/2023 04:54:18 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROC [dbo].[spProducts_Shopping_Delete]
+	@idShoppinCart int,	
+	@ResultOUTPUT CHAR(1) OUTPUT
+AS
+
+
+BEGIN
+	SET NOCOUNT ON;
+	SET DATEFORMAT ymd;
+	BEGIN TRANSACTION
+    BEGIN TRY	
+
+		
+
+		DELETE FROM [dbo].[itemTags] WHERE IdItem = @idShoppinCart
+		
+		DELETE FROM Items_shopping_list 
+		Where Id = @idShoppinCart
+		
+		
+		
+		SET	@ResultOUTPUT = '1'
+		SELECT @ResultOUTPUT
+
+	COMMIT TRANSACTION
+	END TRY
+
+	BEGIN CATCH
+		ROLLBACK TRANSACTION
+		SET	@ResultOUTPUT = '0'
+		SELECT @ResultOUTPUT --error;
+		PRINT ERROR_MESSAGE() 
+	END CATCH
+
+	SET NOCOUNT OFF;
+END
+GO
+/****** Object:  StoredProcedure [dbo].[spProducts_Shopping_insert]    Script Date: 13/05/2023 04:54:18 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROC [dbo].[spProducts_Shopping_insert]
+	@IdProduct int,
+	@IdCustomer int,	
+	@ResultOUTPUT CHAR(1) OUTPUT
+AS
+
+
+BEGIN
+	SET NOCOUNT ON;
+	SET DATEFORMAT ymd;
+	BEGIN TRANSACTION
+    BEGIN TRY	
+		
+		Declare @IdShoppingList INT
+		IF NOT EXISTS(SELECT TOP (1) * FROM [dbo].[Shopping_List] WHERE idCustomer = @IdCustomer)
+		BEGIN
+			INSERT INTO [dbo].[Shopping_List] (idCustomer, creation_date) VALUES (@IdCustomer, GETDATE())
+			SELECT TOP (1) @IdShoppingList = id FROM [Shopping_List]  WHERE idCustomer = @IdCustomer
+		END 
+		ELSE
+		BEGIN
+			SELECT TOP (1) @IdShoppingList = id FROM [Shopping_List]  WHERE idCustomer = @IdCustomer
+		END
+		
+		INSERT INTO [dbo].[Items_shopping_list]
+           ([Id_shoping_list]
+           ,[id_product]
+           ,[quantity]) VALUES(@IdShoppingList, @IdProduct, 1)
+		
+		SET	@ResultOUTPUT = '1'
+		SELECT @ResultOUTPUT
+
+	COMMIT TRANSACTION
+	END TRY
+
+	BEGIN CATCH
+		ROLLBACK TRANSACTION
+		SET	@ResultOUTPUT = '0'
+		SELECT @ResultOUTPUT --error;
+		PRINT ERROR_MESSAGE() 
+	END CATCH
+
+	SET NOCOUNT OFF;
+END
+GO
+USE [master]
+GO
+ALTER DATABASE [PRUEBA] SET  READ_WRITE 
+GO

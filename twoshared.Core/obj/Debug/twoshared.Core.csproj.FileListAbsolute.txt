@@ -1,0 +1,5 @@
+T:\2Shared\Proyecto2Shared\twoshared\twoshared.Core\bin\Debug\twoshared.Core.dll
+T:\2Shared\Proyecto2Shared\twoshared\twoshared.Core\bin\Debug\twoshared.Core.pdb
+T:\2Shared\Proyecto2Shared\twoshared\twoshared.Core\obj\Debug\twoshared.Core.csproj.CoreCompileInputs.cache
+T:\2Shared\Proyecto2Shared\twoshared\twoshared.Core\obj\Debug\twoshared.Core.dll
+T:\2Shared\Proyecto2Shared\twoshared\twoshared.Core\obj\Debug\twoshared.Core.pdb

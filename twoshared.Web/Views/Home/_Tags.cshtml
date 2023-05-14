@@ -1,0 +1,168 @@
+﻿@model List<twoshared.Core.Models.Tags>
+@{
+    
+}
+<div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Tags</h5>
+    <button type="button" class="btn-close" id="btn_cls" data-bs-dismiss="modal" aria-label="Close">
+        @*<span aria-hidden="true">×</span>*@
+    </button>
+</div>
+<div class="modal-body">
+    <form>
+        <div class="form-group">
+            <div class="col-md-12">
+                <table class="table table-sm">
+                    <tbody class="list">
+                        @foreach (var item in Model)
+                        {
+                            <tr>                                
+                                <td>
+                                    <a href="#!" class="item-name text-dark relative-top-2">
+                                        @item.Name
+                                    </a>
+                                </td>
+                                <td width="30%">
+                                    <div class="ms-auto d-flex align-items-center mt-2 mt-md-0">                                        
+                                        <a href="return javascript void(0);" onclick="DeleteItem(@item.Id);" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalStandar">
+                                            Delete
+                                            &nbsp;
+                                            <i class="fa-sharp fa-solid fa-trash"></i>
+                                        </a>
+                                    </div>
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+           
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    <div class="invalid-feedback">Tag Name</div>
+                    <input type="text" name="TagName" id="TagName" class="form-control" placeholder="name" maxlength="50" />
+                </div>
+            </div>
+            <div class="col-md-12">
+                &nbsp;
+            </div>
+
+        </div>
+        <input type="hidden" id="idItem" value="@ViewBag.idItem" />
+        <button id="btn_save" type="button" class="btn btn-dark btn-lg mt-4">
+            Save
+            &nbsp;
+            <i class="fa-regular fa-save"></i>
+        </button>
+    </form>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        Cargando.ocultar();
+    });
+
+    $("#btn_save").click(function () {
+
+
+        var item = $("#idItem").val();
+        var name = $("#TagName").val();
+        var valido = validar();
+        if (valido) {
+            Cargando.mostrar("Espere un momento por favor...");
+            var data = JSON.stringify
+                ({
+                    'idItem': item,
+                    'name': name
+                });
+            $.ajax({
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                type: "POST",
+                url: '/Home/Insert_Tag',
+                data: data,
+                success: function (result) {
+                    var mensaje = result.message;
+                    Cargando.ocultar();
+                    if (result.resp == "200") {
+                        Swal.fire(
+                            'Finalizado!',
+                            result.message,
+                            'success'
+                        ).then(function () {
+                            llamarAjaxPartialViewModal("/Home/_Tags?id=" + item, "dv_partial_modal_standar");
+                        });;
+                    }
+                    else {
+                        Swal.fire(
+                            'Error',
+                            mensaje + " No server found",
+                            'error'
+                        );
+                    }
+
+
+                },
+                error: function () {
+                    alert("error");
+
+                },
+                complete: function (xhr, status) {
+                }
+            });
+        }
+    });
+
+    function validar() {
+        var tagName = $("#TagName").val();
+        if (tagName != null && tagName != "") {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+
+    function DeleteItem(id) {
+        var item = $("#idItem").val();
+        var resultado = window.confirm("Are you sure?");
+
+        if (resultado) {
+            // El usuario hizo clic en Aceptar
+            var data = JSON.stringify
+                ({
+                    'idTag': id,
+
+                });
+            $.ajax({
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                type: "POST",
+                url: '/Home/Delete_tag',
+                data: data,
+                success: function (result) {
+                    var mensaje = result.message;
+                    Cargando.ocultar();
+                    if (result.resp == "200") {
+                        llamarAjaxPartialViewModal("/Home/_Tags?id=" + item, "dv_partial_modal_standar");
+                    }
+                    else {
+                        alert("Error");
+                    }
+                },
+                error: function () {
+                    alert("Error");
+                },
+                complete: function (xhr, status) {
+                }
+            });
+        } else {
+            // El usuario hizo clic en Cancelar
+            
+        }
+
+    }
+</script>

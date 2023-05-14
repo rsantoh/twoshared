@@ -1,0 +1,299 @@
+﻿@{
+    string titulo = "Cargar Formato";   
+}
+<div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">@titulo</h5>
+    <button type="button" class="btn-close" id="btn_cls" data-bs-dismiss="modal" aria-label="Close">
+        @*<span aria-hidden="true">×</span>*@
+    </button>
+</div>
+<div class="modal-body">
+    <form>
+        <div class="form-group">
+
+            <div class="col-md-12">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <label class="control-label no-padding-right">
+                            Tipo de Carga:
+                        </label>
+                    </div>
+                    <div class="col-md-12">
+                        <select id="ddlTipoCarga" name="ddlTipoCarga" class="form-select" aria-label="Default select example">
+                            <option value="" selected>Seleccione una opción</option>
+                            <option value="3">Estructura_CUIPO_CHIP</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                &nbsp;
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    @*<label class="form-label" for="nombreVersion">Input with error</label>
+                    <input type="text" class="form-control is-invalid" id="nombreVersion">
+                    <div class="invalid-feedback">Lo sentimos, el nombre de la versión es incorrecto</div>*@
+                    <label for="startDate"> Nombre de Versión:</label>
+                    <input type="text" name="nombreVersion" id="nombreVersion" class="form-control" placeholder="Nombre de la versión" maxlength="50" />
+                </div>
+            </div>
+            <div class="col-md-12">
+                &nbsp;
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    <label for="startDate"> Fecha de Versión:</label>
+                    <input type="date" name="startDate" id="startDate" class="form-control" placeholder="Seleccione" value="@ViewBag.fecha" />
+                </div>
+            </div>
+            <div class="col-md-12">
+                &nbsp;
+            </div>
+            <div class="col-md-12">
+                <label>Seleccionar archivo:</label>
+                <div class="col-md-12" style="">
+                    <input type="file" id="excelFile" name="excelFile" accept=".xlsx" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <button id="btn_save" type="button" class="btn btn-dark btn-lg mt-4">
+            Guardar
+            &nbsp;
+            <i class="fa-regular fa-save"></i>
+        </button>
+    </form>
+</div>
+
+<script>
+
+
+    $(document).ready(function () {
+        CargarFormatos();
+    });
+
+    $("#btn_save").click(function () {
+      
+
+        var valido = validar();
+        if (valido) {
+            Cargando.mostrar("Espere un momento por favor...");
+            var select = $("#ddlTipoCarga").val();
+            var fecha = $("#startDate").val();
+            var nombreVersion = $("#nombreVersion").val();
+            var adjunto_files = $('input[type=file]');
+
+            var datosEnviar = new FormData();
+            datosEnviar.append("adjunto", adjunto_files[0].files[0]);
+            datosEnviar.append("version", fecha);
+            datosEnviar.append("tipoCarga", select);
+            datosEnviar.append("nombreVersion", nombreVersion);
+
+            if (select == "1") {
+                $.ajax({
+                    url: '/CargarArchivos/CargaCatalogoProductos/',
+                    type: "POST",
+                    data: datosEnviar,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (result) {
+                        var mensaje = result.mensaje;
+                        Cargando.ocultar();
+                        if (result.resp == "1") {
+                            Swal.fire(
+                                'Finalizado!',
+                                result.mensaje,
+                                'success'
+                            ).then(function () {
+                                $("#btn_cls").click();
+                                location.reload();
+                            });;
+                        }
+                        else {
+                            Swal.fire(
+                                'Error',
+                                mensaje,
+                                'error'
+                            );
+                        }
+                    },
+                    error: function () {
+                        Cargando.ocultar();
+                        Swal.fire(
+                            'Error',
+                            'Algo salio mal!',
+                            'error'
+                        );
+                    }
+                });
+            }
+            else if (select == "2") {
+                $.ajax({
+                    url: '/CargarArchivos/CargaListasCategoriasCuipo/',
+                    type: "POST",
+                    data: datosEnviar,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (result) {
+                        var mensaje = result.mensaje;
+                        Cargando.ocultar();
+                        if (result.resp == "1") {
+                            Swal.fire(
+                                'Finalizado!',
+                                result.mensaje,
+                                'success'
+                            ).then(function () {
+                                $("#btn_cls").click();
+                                location.reload();
+                            });;
+                        }
+                        else {
+                            Swal.fire(
+                                'Error',
+                                mensaje,
+                                'error'
+                            );
+                        }
+                    },
+                    error: function () {
+                        Cargando.ocultar();
+                        Swal.fire(
+                            'Error',
+                            'Algo salio mal!',
+                            'error'
+                        );
+                    }
+                });
+            }
+            else if (select == "3") {
+                $.ajax({
+                    url: '/CargarArchivos/Cargar_Listas_Categoria_CUIPO/',
+                    type: "POST",
+                    data: datosEnviar,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (result) {
+                        var mensaje = result.mensaje;
+                        Cargando.ocultar();
+                        if (result.resp == "1") {
+                            Swal.fire(
+                                'Finalizado!',
+                                result.mensaje,
+                                'success'
+                            ).then(function () {
+                                $("#btn_cls").click();
+                                location.reload();
+                            });;
+                        }
+                        else {
+                            Swal.fire(
+                                'Error',
+                                mensaje,
+                                'error'
+                            );
+                        }
+                    },
+                    error: function () {
+                        Cargando.ocultar();
+                        Swal.fire(
+                            'Error',
+                            'Algo salio mal!',
+                            'error'
+                        );
+                    }
+                });
+            }
+            else {
+                Cargando.ocultar();
+                Swal.fire(
+                    'Error',
+                    'Seleccione un valor valido!',
+                    'error'
+                );
+            }
+        }   
+    });
+
+    function CargarFormatos() {
+        $.ajax({
+            type: "POST",
+            url: "/CargarArchivos/GetDDLFormatos",
+            data: {},
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                var ddlEE = $("#ddlTipoCarga");
+                ddlEE.empty();
+                ddlEE.append($("<option selected disabled/>").val('').text('Seleccionar'));
+                $.each(data.Dynamic, function (index, row) {
+                    $("#ddlTipoCarga").append("<option value='" + row.Id + "'>" + row.Texto + "</option>")
+                });
+            }
+
+        })
+    }
+
+
+    function validar() {
+        var cont = 0;
+        var select = $("#ddlTipoCarga").val();           
+        if (select == "" || select == null ) {
+            cont++;
+            var selectDiv = document.getElementById("ddlTipoCarga");
+            selectDiv.classList.remove("is-valid");
+            selectDiv.classList.add("is-invalid");
+        }
+        else {
+            var selectDiv = document.getElementById("ddlTipoCarga");
+            selectDiv.classList.remove("is-invalid");
+            selectDiv.classList.add("is-valid");
+        }
+        var nombreVersion = $("#nombreVersion").val();
+        if (nombreVersion == "") {
+            cont++;
+            var selectDiv = document.getElementById("nombreVersion");
+            selectDiv.classList.remove("is-valid");
+            selectDiv.classList.add("is-invalid");
+        }
+        else {
+            var selectDiv = document.getElementById("nombreVersion");
+            selectDiv.classList.remove("is-invalid");
+            selectDiv.classList.add("is-valid");
+        }
+        var fecha = $("#startDate").val();
+        if (fecha == "") {
+            cont++;
+            var selectDiv = document.getElementById("startDate");
+            selectDiv.classList.remove("is-valid");
+            selectDiv.classList.add("is-invalid");
+        }
+        else {
+            var selectDiv = document.getElementById("startDate");
+            selectDiv.classList.remove("is-invalid");
+            selectDiv.classList.add("is-valid");
+        }
+        var adjunto_files = $('input[type=file]');
+        if (adjunto_files[0].files[0] == null) {
+            cont++;
+            var selectDiv = document.getElementById("excelFile");
+            selectDiv.classList.remove("is-valid");
+            selectDiv.classList.add("is-invalid");
+        }
+        else {
+            var selectDiv = document.getElementById("excelFile");
+            selectDiv.classList.remove("is-invalid");
+            selectDiv.classList.add("is-valid");
+        }
+        if (cont == 0) {
+            return true;
+        }
+        else {
+
+            return false;
+        }
+    }
+
+</script>

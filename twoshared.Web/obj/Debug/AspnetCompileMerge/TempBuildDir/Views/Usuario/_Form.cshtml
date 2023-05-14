@@ -1,0 +1,103 @@
+﻿@model DigitalGOB2023.Web.Models.RolViewModel.Usuario
+
+
+@{
+    string titulo = "Nuevo usuario";
+
+    if (Model.Id != null)
+    {
+        titulo = "Editar usuario";
+    }
+}
+
+<div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">@titulo</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+        @*<span aria-hidden="true">×</span>*@
+    </button>
+</div>
+<div class="modal-body">
+    <form>
+        <div class="form-group">
+            <input id="usrId" type="hidden" value="@Model.Id" />
+            <label for="recipient-name" class="form-label">Usuario:</label>
+            <input type="text" class="form-control" id="usrName" value="@Model.Email">
+        </div>
+        <div class="form-group">
+            <input id="rolId" type="hidden" value="@Model.Id" />
+            <label for="recipient-name" class="form-label">Contraseña:</label>
+            <input type="password" class="form-control" id="usrPass" value="@Model.Password">
+        </div>
+        <button id="btn_save" type="button" class="btn btn-primary btn-lg mt-4">Guardar Información</button>
+    </form>
+</div>
+
+<script type="text/javascript">
+
+    
+
+    $("#btn_save").click(function () {
+
+        Swal.fire({
+            title: 'Está seguro de guardar el usuario?',
+            //text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'SI',
+            cancelButtonText: 'NO'
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+                var datosEnviar = new FormData();
+
+                var Id = "0";
+
+                if ($("#usrId").val() != null) {
+
+                    Id = $("#usrId").val()
+                }
+                var Nombre = $("#usrName").val();
+                var Pass = $("#usrPass").val();
+
+
+                datosEnviar.append("id", Id);
+                datosEnviar.append("usuario", Nombre);
+                datosEnviar.append("password", Pass);
+
+                $.ajax({
+                    url: '/Usuario/GuardarUsuario/',
+                    type: "POST",
+                    data: datosEnviar,
+                    dataType: 'json',
+                    contentType: false,
+                    processData: false,
+                    success: function (result) {
+                        if (result.respuesta != "0") {
+                            window.location.href = "/Usuario/Index";
+                        }
+                        else {
+                            Swal.fire(
+                                'Error',
+                                'No se pudo ejecutar la operacion',
+                                'error'
+                            );
+
+                        }
+                    },
+                    error: function (xhr, status) {
+
+                        alert("An error occured: " + xhr.status + " " + xhr.statusText + " - status: " + status);
+                    }
+                });
+
+
+
+            }
+        });
+        
+       
+
+    });
+</script>

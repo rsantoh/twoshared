@@ -1,0 +1,13 @@
+T:\2Shared\Proyecto2Shared\twoshared\twoshared.Infraestructure\bin\Debug\twoshared.Infraestructure.dll
+T:\2Shared\Proyecto2Shared\twoshared\twoshared.Infraestructure\bin\Debug\twoshared.Infraestructure.pdb
+T:\2Shared\Proyecto2Shared\twoshared\twoshared.Infraestructure\bin\Debug\EntityFramework.dll
+T:\2Shared\Proyecto2Shared\twoshared\twoshared.Infraestructure\bin\Debug\EntityFramework.SqlServer.dll
+T:\2Shared\Proyecto2Shared\twoshared\twoshared.Infraestructure\bin\Debug\twoshared.Core.dll
+T:\2Shared\Proyecto2Shared\twoshared\twoshared.Infraestructure\bin\Debug\twoshared.Core.pdb
+T:\2Shared\Proyecto2Shared\twoshared\twoshared.Infraestructure\bin\Debug\EntityFramework.xml
+T:\2Shared\Proyecto2Shared\twoshared\twoshared.Infraestructure\bin\Debug\EntityFramework.SqlServer.xml
+T:\2Shared\Proyecto2Shared\twoshared\twoshared.Infraestructure\obj\Debug\twoshared.Infraestructure.csprojAssemblyReference.cache
+T:\2Shared\Proyecto2Shared\twoshared\twoshared.Infraestructure\obj\Debug\twoshared.Infraestructure.csproj.CoreCompileInputs.cache
+T:\2Shared\Proyecto2Shared\twoshared\twoshared.Infraestructure\obj\Debug\twoshared.Infraestructure.csproj.CopyComplete
+T:\2Shared\Proyecto2Shared\twoshared\twoshared.Infraestructure\obj\Debug\twoshared.Infraestructure.dll
+T:\2Shared\Proyecto2Shared\twoshared\twoshared.Infraestructure\obj\Debug\twoshared.Infraestructure.pdb

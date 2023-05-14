@@ -1,0 +1,11 @@
+T:\Plantilla\Proyecto\Proyecto.Core\bin\Debug\Proyecto.Core.dll
+T:\Plantilla\Proyecto\Proyecto.Core\bin\Debug\Proyecto.Core.pdb
+T:\Plantilla\Proyecto\Proyecto.Core\obj\Debug\Proyecto.Core.csproj.CoreCompileInputs.cache
+T:\Plantilla\Proyecto\Proyecto.Core\obj\Debug\Proyecto.Core.dll
+T:\Plantilla\Proyecto\Proyecto.Core\obj\Debug\Proyecto.Core.pdb
+T:\2Shared\Proyecto\Proyecto.Core\bin\Debug\Proyecto.Core.dll
+T:\2Shared\Proyecto\Proyecto.Core\bin\Debug\Proyecto.Core.pdb
+T:\2Shared\Proyecto\Proyecto.Core\obj\Debug\Proyecto.Core.csproj.AssemblyReference.cache
+T:\2Shared\Proyecto\Proyecto.Core\obj\Debug\Proyecto.Core.csproj.CoreCompileInputs.cache
+T:\2Shared\Proyecto\Proyecto.Core\obj\Debug\Proyecto.Core.dll
+T:\2Shared\Proyecto\Proyecto.Core\obj\Debug\Proyecto.Core.pdb

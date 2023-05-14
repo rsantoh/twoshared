@@ -1,0 +1,174 @@
+﻿@model  List<DigitalGOB2023.Core.Models.FormatoDetalle>
+@{
+    ViewBag.Title = "Home Page";
+
+}
+
+<div class="row text-center text-md-start">
+    <div class="col-md-6">
+        <div class="me-auto">
+            <h2>
+                Carga de Archivos
+            </h2>
+
+        </div>
+    </div>
+    <div class="col-md-6 text-md-end">
+        <p class="text-gray-600 fs-xs">
+            <a href="javascript:void();">Inicio</a> / Carga de Arvhivos
+        </p>
+        <a href="return javascript void(0);" id="btn_call_form" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalStandar">
+            Cargar Formato
+            &nbsp;
+            <i class="fa-regular fa-plus"></i>
+        </a>
+
+    </div>
+</div>
+
+<div class="card mt-3">   
+
+
+
+    <div class="card-body">
+        @foreach (var item in Model)
+        {
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item d-md-flex align-items-center">
+                    <div class="icon-circle text-primary">
+                        @if (item.Extension.Contains("XLSX"))
+                        {
+                            <i class="far fa-file-excel h5"></i>
+                        }
+                        else if (item.Extension.Contains("PDF"))
+                        {
+                            <i class="far fa-file-pdf h5"></i>
+                        }
+                        else
+                        {
+                            <i class="far fa-file h5"></i>
+                        }
+                    </div>
+                    <div class="ms-md-3">
+                        <a href="#!" class="text-dark fw-bold d-block mb-1">
+                            @item.Texto
+                        </a>
+                        <span class="text-muted fs-sm">
+                            Versiones Cargadas: @item.Cant_Versiones <span class="mx-1">● Última Actualización:</span> @item.FUltm_Version <span class="mx-1">●</span> @item.Extension
+                        </span>
+                    </div>
+                    <div class="ms-auto d-flex align-items-center mt-2 mt-md-0">
+                        @if (item.URL_Ult_Ver != "-1")
+                        {
+                            <a href="@item.URL_Ult_Ver" target="_blank" class="btn btn-white">
+                                Descargar
+                                <span class="svg-icon svg-icon-xs text-dark">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"><title>ionicons-v5-a</title><polyline points="112 268 256 412 400 268" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:48px" /><line x1="256" y1="392" x2="256" y2="100" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:48px" /></svg>
+                                </span>
+                            </a>
+                            <div class="dropdown ms-3">
+                                <a href="#" class="text-gray-500" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="svg-icon text-gray-500">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"><title>ionicons-v5-f</title><circle cx="256" cy="256" r="32" style="fill:none;stroke:#000;stroke-miterlimit:10;stroke-width:32px" /><circle cx="416" cy="256" r="32" style="fill:none;stroke:#000;stroke-miterlimit:10;stroke-width:32px" /><circle cx="96" cy="256" r="32" style="fill:none;stroke:#000;stroke-miterlimit:10;stroke-width:32px" /></svg>
+                                    </span>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="#" onclick="verCargas(@item.Id, '@item.Texto');">Ver versiones</a>
+                                  
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+                </li>
+            </ul>
+            <hr />
+        }
+    </div>
+
+    @*<div class="card-footer bg-dark">
+            Pie de sección
+
+     </div>*@
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Cargar archivos</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+            <div class="modal-body">
+
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts
+{
+
+    <script type="text/javascript">
+        $(function () {
+            var options = {
+                valueNames: ['item-name', 'item-location', 'item-ceo'],
+                page: 10,
+                pagination: {
+                    paginationClass: 'nav-pagination'
+                }
+            };
+
+            var companiesList = new List('roles', options);
+        })
+
+        $("#btn_call_form").click(function () {
+            llamarAjaxPartialViewModal("/CargarArchivos/_LoadFile", "dv_partial_modal_standar");
+        });
+
+        window.Cargando = {
+            mensaje: "Por favor espere ...",
+            mostrar: function (mensaje) {
+                var cargando_mensaje = window.Cargando.mensaje;
+                if (mensaje != undefined && mensaje != null && mensaje != "") {
+                    cargando_mensaje = mensaje;
+                }
+                $(".cargando-content p").html(cargando_mensaje);
+                $(".cargando").show();
+            },
+            ocultar: function () {
+                $(".cargando").hide();
+            }
+        }
+
+        function verCargas(id, Texto) {           
+            Cargando.mostrar("Espere un momento por favor...");
+            redirect_by_post('/Cargas/Index/', {
+                id: id,
+                Nombre: Texto
+            }, false);        
+        }
+
+        function redirect_by_post(purl, pparameters, in_new_tab) {
+            pparameters = (typeof pparameters == 'undefined') ? {} : pparameters;
+            in_new_tab = (typeof in_new_tab == 'undefined') ? true : in_new_tab;
+
+            var form = document.createElement("form");
+            $(form).attr("id", "reg-form").attr("name", "reg-form").attr("action", purl).attr("method", "post").attr("enctype", "multipart/form-data");
+            if (in_new_tab) {
+                $(form).attr("target", "_blank");
+            }
+            $.each(pparameters, function (key) {
+                $(form).append('<input type="text" name="' + key + '" value="' + this + '" />');
+            });
+            document.body.appendChild(form);
+            form.submit();
+            document.body.removeChild(form);
+
+            return false;
+        }
+
+        
+    </script>
+
+}

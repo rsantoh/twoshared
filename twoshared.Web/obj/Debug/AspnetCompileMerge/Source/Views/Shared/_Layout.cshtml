@@ -1,0 +1,482 @@
+﻿@using Microsoft.AspNet.Identity
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>@ViewBag.Title. | DigitalGOB</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="shortcut icon" href="/Theme/assets/img/favicon.ico">
+
+     @*Theme styles*@ 
+    <link rel="stylesheet" type="text/css" href="/Theme/assets/css/theme.min.css">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+
+
+    <!-- Vendor -->
+    <link rel="stylesheet" type="text/css" href="/Theme/assets/css/vendor.min.css">
+
+    <!-- Vendor -->
+    <link rel="stylesheet" type="text/css" href="/Theme/assets/css/loader.css">
+
+    <!-- Add your scripts here -->
+    @RenderSection("styles", required: false)
+
+    <style type="text/css">
+        /* cargando */
+        .cargando {
+            position: fixed;
+            z-index: 10000;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255,255,255,0.8);
+            display: none;
+        }
+
+        .cargando-content {
+            position: absolute;
+            top: 50%;
+            width: 200px;
+            height: 200px;
+            left: 50%;
+            margin-left: -100px;
+            margin-top: -100px;
+            text-align: center;
+            z-index: 26;
+        }
+
+            .cargando-content img {
+                width: 30px;
+                height: 30px;
+            }
+
+            .cargando-content p {
+                font-size: 14px;
+                font-weight: normal;
+                margin: 10px 0 0 0;
+                color: #444;
+            }
+    </style>
+</head>
+
+<body>
+    <div class="cargando">
+        <div class="cargando-content">
+            <div class="mosaic-loader">
+                <div class="cell d-0"></div>
+                <div class="cell d-1"></div>
+                <div class="cell d-2"></div>
+                <div class="cell d-3"></div>
+                <div class="cell d-1"></div>
+                <div class="cell d-2"></div>
+                <div class="cell d-3"></div>
+                <div class="cell d-4"></div>
+                <div class="cell d-2"></div>
+                <div class="cell d-3"></div>
+                <div class="cell d-4"></div>
+                <div class="cell d-5"></div>
+                <div class="cell d-3"></div>
+                <div class="cell d-4"></div>
+                <div class="cell d-5"></div>
+                <div class="cell d-6"></div>
+            </div>
+        </div>
+    </div>
+
+    <nav class="navbar navbar-vertical navbar-expand-lg navbar-light bg-white" role="navigation" style="">
+        <div class="container-fluid">
+            <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <a class="navbar-brand" href="/Home/Index">
+                <img src="~/Theme/assets/img/logo.png" alt="DigitalGOB" />
+                <br />Alcaldía de Pácora
+            </a>
+
+            <div class="dropdown d-flex d-lg-none">
+                <a href="#" data-bs-toggle="dropdown">
+                    <span class="avatar">
+                        <img src="/Theme/assets/img/uifaces/default.jpg" class="avatar-image rounded-circle" alt="">
+                    </span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-end">
+                    <a class="dropdown-item" href="/Theme/profile.html">My profile</a>
+                    <a class="dropdown-item" href="/Theme/account.html">Account settings</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/Theme/sign-in.html">Cerrar Sesión</a>
+                </div>
+            </div>
+
+            <div class="collapse navbar-collapse mt-md-2" id="navbar-collapse">
+                <ul class="navbar-nav" id="sidebar-nav">
+
+                    <li class="nav-item">
+                        <a href="#sidebar-docs" class="nav-link" data-bs-toggle="collapse" aria-expanded="false" aria-controls="sidebar-docs">
+                            <span class="svg-icon text-primary me-2 relative-top--1">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"><title>ionicons-v5-m</title><polyline points="160 368 32 256 160 144" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px" /><polyline points="352 368 480 256 352 144" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px" /><line x1="304" y1="96" x2="208" y2="416" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px" /></svg>
+                            </span>
+
+                            Administración
+                            <i class="fas fa-chevron-down fa-xs collapse-icon ms-auto"></i>
+                        </a>
+                        <div class="collapse" id="sidebar-docs" data-bs-parent="#sidebar-nav">
+                            <ul class="nav nav-sm flex-column">
+                                <li class="nav-item">
+                                    <a href="/CargarArchivos/Index" class="nav-link">
+                                        Cargar Archivos
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/Rol/Index" class="nav-link">
+                                        Perfiles de Usuario
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/Usuario/Index" class="nav-link">
+                                        Usuarios
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="mailto:e.adrian90@gmail.com" class="nav-link">
+                                        Páginas
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+
+                <!-- <hr class="navbar-divider mt-auto mb-4"> -->
+
+                <a href="#!" class="btn btn-light btn-sm mt-auto d-none d-lg-block" style="transform: rotateY(180deg);" data-toggle="sidebar" data-sidebar="lg">
+                    <span class="svg-icon text-primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"><title>ionicons-v5-j</title><path d="M176,176V136a40,40,0,0,1,40-40H424a40,40,0,0,1,40,40V376a40,40,0,0,1-40,40H216a40,40,0,0,1-40-40V336" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px" /><polyline points="272 336 352 256 272 176" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px" /><line x1="48" y1="256" x2="336" y2="256" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px" /></svg>
+                    </span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+
+    <nav class="navbar navbar-vertical navbar-vertical-sm fixed-left navbar-expand-lg navbar-light bg-white" role="navigation" style="display: none">
+        <div class="container-fluid">
+            <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <a class="navbar-brand" href="/Home/Index">
+                <img src="~/Theme/assets/img/favicon.png" alt="DigitalGOB" />
+            </a>
+
+            <div class="dropdown d-flex d-lg-none">
+                <a href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="avatar">
+                        <img src="~/Theme/assets/img/uifaces/default.jpg" class="avatar-image rounded-circle" alt="">
+                    </span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-end">
+                    <a class="dropdown-item" href="/Theme/profile.html">My profile</a>
+                    <a class="dropdown-item" href="/Theme/account.html">Account settings</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/Theme/sign-in.html">Cerrar Sesión</a>
+                </div>
+            </div>
+
+            <div class="collapse navbar-collapse mt-md-3" id="navbar-collapse">
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown dropend">
+                        <a href="#" class="nav-link dropdown-toggle " data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="svg-icon text-primary me-2 relative-top--1">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"><title>ionicons-v5-m</title><polyline points="160 368 32 256 160 144" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px" /><polyline points="352 368 480 256 352 144" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px" /><line x1="304" y1="96" x2="208" y2="416" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px" /></svg>
+                            </span>
+                            <span class="d-md-none">Administración</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="dropdown-header d-none d-md-block">
+                                <span class="text-uppercase-xs fw-bolder">Administración</span>
+                            </li>
+                            <li>
+                                <a href="/Rol/Index" class="dropdown-item">
+                                    Roles
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/Usuario/Index" class="dropdown-item">
+                                    Usuarios
+                                </a>
+                            </li>
+                            <li>
+                                <a href="mailto:e.adrian90@gmail.com" class="dropdown-item">
+                                    Paginas
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <!-- <hr class="navbar-divider my-3"> -->
+
+                <a href="#!" class="btn btn-light btn-sm mt-auto d-none d-lg-block" data-toggle="sidebar" data-sidebar="sm">
+                    <span class="svg-icon text-primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"><title>ionicons-v5-j</title><path d="M176,176V136a40,40,0,0,1,40-40H424a40,40,0,0,1,40,40V376a40,40,0,0,1-40,40H216a40,40,0,0,1-40-40V336" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px" /><polyline points="272 336 352 256 272 176" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px" /><line x1="48" y1="256" x2="336" y2="256" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px" /></svg>
+                    </span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="main-content">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white d-none d-lg-flex">
+            <div class="container-fluid">
+                <!-- Form -->
+                <form>
+                    <div class="input-group input-group-flush">
+
+                    </div>
+                </form>
+
+                <!-- User -->
+
+
+                <div class="d-flex align-items-center">
+                    <div class="dropdown d-none d-md-flex">
+                        <a href="#" class="svg-icon svg-icon-sm" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"><title>ionicons-v5-j</title><path d="M427.68,351.43C402,320,383.87,304,383.87,217.35,383.87,138,343.35,109.73,310,96c-4.43-1.82-8.6-6-9.95-10.55C294.2,65.54,277.8,48,256,48S217.79,65.55,212,85.47c-1.35,4.6-5.52,8.71-9.95,10.53-33.39,13.75-73.87,41.92-73.87,121.35C128.13,304,110,320,84.32,351.43,73.68,364.45,83,384,101.61,384H410.49C429,384,438.26,364.39,427.68,351.43Z" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px" /><path d="M320,384v16a64,64,0,0,1-128,0V384" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px" /></svg>
+                            <div class="rounded-circle bg-primary position-absolute top-0 start-100 translate-middle p-1"></div>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end dropdown-menu-card shadow-light-sm me-n3">
+                            <div class="card-header">
+                                <h6 class="card-header-title">
+                                    Notifications (2)
+                                </h6>
+                                <a href="#!" class="small">
+                                    View all
+
+                                    <i class="fas fa-chevron-right fa-xs ms-1"></i>
+                                </a>
+                            </div>
+                            <div class="card-body">
+                                <a href="#!" class="row text-reset text-decoration-none bg-light rounded py-2 gx-3">
+                                    <div class="col-auto">
+                                        <div class="avatar">
+                                            <img src="/Theme/assets/img/uifaces/10.jpg" class="avatar-image rounded-circle" alt="">
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="fs-sm">
+                                            <strong>John Smith</strong> mentioned you in a comment.
+                                        </div>
+                                        <div class="fs-xs fw-bold text-gray-500 mt-2">
+                                            3m ago
+                                        </div>
+                                    </div>
+                                </a>
+                                <a href="#!" class="row text-reset text-decoration-none bg-light rounded py-2 gx-3 mt-3">
+                                    <div class="col-auto">
+                                        <div class="avatar">
+                                            <img src="/Theme/assets/img/uifaces/12.jpg" class="avatar-image rounded-circle" alt="">
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="fs-sm">
+                                            <strong>Mark Twain</strong> added a new project Website.
+                                        </div>
+                                        <div class="fs-xs fw-bold text-gray-500 mt-2">
+                                            1d ago
+                                        </div>
+                                    </div>
+                                </a>
+                                <a href="#!" class="row text-reset text-decoration-none py-2 gx-3 mt-3">
+                                    <div class="col-auto">
+                                        <div class="avatar">
+                                            <img src="/Theme/assets/img/uifaces/9.jpg" class="avatar-image rounded-circle" alt="">
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="fs-sm">
+                                            <strong>Maria Popova</strong> archived the to-do list April Tasks 📂.
+                                        </div>
+                                        <div class="fs-xs fw-bold text-gray-500 mt-2">
+                                            3d ago
+                                        </div>
+                                    </div>
+                                </a>
+                                <a href="#!" class="row text-reset text-decoration-none py-2 gx-3 mt-3">
+                                    <div class="col-auto">
+                                        <div class="avatar">
+                                            <img src="/Theme/assets/img/uifaces/8.jpg" class="avatar-image rounded-circle" alt="">
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="fs-sm">
+                                            <strong>Joan Didion</strong> commented on a project you're assigned in.
+                                        </div>
+                                        <div class="fs-xs fw-bold text-gray-500 mt-2">
+                                            1 week ago
+                                        </div>
+                                    </div>
+                                </a>
+                                <a href="#!" class="row text-reset text-decoration-none py-2 gx-3 mt-3">
+                                    <div class="col-auto">
+                                        <div class="avatar">
+                                            <img src="/Theme/assets/img/uifaces/7.jpg" class="avatar-image rounded-circle" alt="">
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="fs-sm">
+                                            <strong>Ernest Hemingway</strong> mentioned you in a comment.
+                                        </div>
+                                        <div class="fs-xs fw-bold text-gray-500 mt-2">
+                                            1 month ago
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dropdown mx-4 d-none">
+                        <a href="#" class="svg-icon" data-bs-toggle="dropdown">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"><title>ionicons-v5-g</title><line x1="192" y1="448" x2="320" y2="448" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px" /><path d="M384,208v32c0,70.4-57.6,128-128,128h0c-70.4,0-128-57.6-128-128V208" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px" /><line x1="256" y1="368" x2="256" y2="448" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px" /><path d="M256,64a63.68,63.68,0,0,0-64,64V239c0,35.2,29,65,64,65s64-29,64-65V128C320,92,292,64,256,64Z" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px" /></svg>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end me-n3">
+                            <a class="dropdown-item" href="#!">
+                                New podcast
+                            </a>
+                            <a class="dropdown-item" href="#!">
+                                New video
+                            </a>
+                            <a class="dropdown-item" href="#!">
+                                Go live
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="dropdown ms-2">
+                        @if (Request.IsAuthenticated)
+                        {
+                            using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+                            {
+                                @Html.AntiForgeryToken()
+
+
+                                <a href="#" class="d-flex align-items-center" data-bs-toggle="dropdown">
+                                    <span class="avatar">
+                                        <img src="/Theme/assets/img/uifaces/default.jpg" class="avatar-image rounded-circle" alt="">
+                                    </span>
+                                    <span class="text-dark ms-2">@User.Identity.GetUserName()</span>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <a class="dropdown-item" href="/Theme/profile.html">My profile</a>
+                                    <a class="dropdown-item" href="/Theme/account.html">Account settings</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="javascript:document.getElementById('logoutForm').submit()">Cerrar sesión</a>
+                                </div>
+
+
+                            }
+                        }
+                        else
+                        {
+                            Response.Redirect("~/Account/Login");
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+
+        <div class="container-fluid mt-4 mt-md-5 mb-6">
+
+
+            @RenderBody()
+        </div>
+
+
+        <div class="modal fade" id="modalStandar" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div id="dv_partial_modal_standar" class="modal-content">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT
+    ============================================-->
+    <!-- Vendor -->
+    <script src="/Theme/assets/js/vendor.min.js"></script>
+
+
+    <!-- Main Theme file -->
+    <script src="/Theme/assets/js/theme.min.js"></script>
+    <script src="/Scripts/jquery.validate.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.1/dist/sweetalert2.all.min.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            // datepicker
+            function cb(start, end) {
+                $('[data-datepicker] span').html(start.format('MMM D, YYYY') + ' - ' + end.format('MMM D, YYYY'))
+            }
+
+            var startDate = moment().subtract(17, 'days')
+            var endDate = moment()
+
+            $('[data-datepicker]').daterangepicker({
+                startDate: startDate,
+                endDate: endDate,
+                opens: 'left',
+                applyButtonClasses: "btn-purple",
+                ranges: {
+                    'Today': [moment(), moment()],
+                    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                    'This Month': [moment().startOf('month'), moment().endOf('month')],
+                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                }
+            }, cb)
+
+            cb(startDate, endDate)
+        })
+
+
+        function llamarAjaxPartialViewModal(accion, div) {
+            $(".cargando").show();
+            $.ajax({
+
+                type: 'GET',
+                url: accion,
+                //data: parametros,
+                dataType: 'html', //tipo de dato html
+                success: function (result) {
+                    $('#' + div).html(result);
+                    //$('#modal-dialog').modal('show');
+                    $(".cargando").hide();
+                },
+                error: function () {
+                    // $("#modalLoading").modal("hide");
+                    alert("Ha ocurrido un error.", "error")
+                    $(".cargando").hide();
+                }
+            });
+        }
+    </script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+
+
+
+
